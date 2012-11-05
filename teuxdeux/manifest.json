@@ -1,0 +1,13 @@
+{
+    "name": "teuxdeux for chrome",
+    "version": "0.1",
+    "manifest_version": 2,
+    "description": "Simple Google Chrome extension to show today's teuxdeuxs",
+    "browser_action": {
+        "default_icon": "static/img/icon.png",
+        "default_popup": "popup.html"
+    },
+    "permissions": [
+        "https://www.teuxdeux.com/api/"
+    ]
+}

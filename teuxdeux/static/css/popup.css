@@ -1,0 +1,82 @@
+body {
+    width: 250px;
+    min-height: 300px;
+    font-family: Arial;
+}
+.clear {
+    clear: both;
+}
+#header {
+    position: relative;
+    width: 236px;
+    margin: 5px auto 0px;
+    padding: 0.3em 0.5em 0.1em 0.5em;
+    font-family: Arial;
+    font-size: 1em;
+    background-color: #CC0000;
+}
+#header .title, #header .username {
+    color: #ffffff;
+}
+#header .title {
+    font-weight: bold;
+    float: left;
+}
+#header .username {
+    float: right;
+}
+#wrapper {
+    position: relative;
+    width: 248px;
+    margin: 50px auto 10px;
+}
+#today, #date {
+    color: #CC0000;
+}
+#today {
+    text-align: center;
+    font-size: 2em;
+    font-weight: bold;
+}
+#date {
+    text-align: center;
+    font-size: 0.9em;
+}
+#wrapper form {
+    margin: 20px auto;
+}
+#wrapper form input[type=text] {
+    width: 185px;
+    float: left;
+}
+#wrapper form input[type=button] {
+    width: 40px;
+    float: right;
+}
+#loader {
+    position: relative;
+    margin: 30px auto;
+    width: 32px;
+    height: 32px;
+}
+#list_items {
+    display: none;
+    list-style-type: none;
+    padding: 10px 0px 0px 0px;
+    margin: 0px;
+}
+.todo_item.skeleton {
+    display: none;
+}
+.todo_item {
+    border-bottom: 1px dotted silver;
+    font-size: 0.8em;
+    line-height: 1.8em;
+    color: #CC0000;
+    font-weight: normal;
+}
+.todo_item.done {
+    text-decoration: line-through;
+    font-weight: lighter;
+}
+

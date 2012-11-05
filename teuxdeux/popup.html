@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+    <head>
+        <title>teuxdeux for chrome</title>
+        <link rel="stylesheet" type="text/css" href="static/css/popup.css" />
+        <script type="text/javascript" src="static/js/jquery-1.8.2.js"></script>
+        <script type="text/javascript" src="static/js/popup.js"></script>
+    </head>
+    <body>
+        <div id="header">
+            <div class="title">TEUXDEUX</div>
+            <div class="username"></div>
+            <div class="clear"></div>
+        </div>
+        <div id="wrapper">
+            <div id="today"></div>
+            <div id="date"></div>
+            <form action="" method="post">
+                <input type="text" id="add_input" value="" name="todo" />
+                <input type="button" id="add_button" class="button" value="Add" name="" />
+            </form>
+            <div class="clear"></div>
+
+            <div id="loader"><img src="static/img/loader.gif" /></div>
+
+            <ul id="list_items">
+                <li class="todo_item skeleton"></li>
+            </ul>
+        </div>
+    </body>
+</html>
