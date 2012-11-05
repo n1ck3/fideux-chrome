@@ -1,4 +1,4 @@
 chrome-teuxdeux
 ===============
 
-teuxdeux chrome extension
+Simple teuxdeux chrome extension
