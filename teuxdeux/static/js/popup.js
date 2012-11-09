@@ -16,16 +16,16 @@
             "DECEMBER"
         ]
         var weekdays = [
+            "SUNDAY",
             "MONDAY",
             "TUESDAY",
             "WEDNESDAY",
             "THURSDAY",
             "FRIDAY",
             "SATURDAY",
-            "SUNDAY"
         ]
 
-        var today = weekdays[d.getDay()+1]
+        var today = weekdays[d.getDay()]
         var date = months[d.getMonth()+1]+" "+d.getDate()+", "+d.getFullYear()
 
         $("#today").text("dsdsda");
