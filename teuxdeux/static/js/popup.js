@@ -26,7 +26,7 @@
         ]
 
         var today = weekdays[d.getDay()]
-        var date = months[d.getMonth()+1]+" "+d.getDate()+", "+d.getFullYear()
+        var date = months[d.getMonth()]+" "+d.getDate()+", "+d.getFullYear()
 
         $("#today").text("dsdsda");
         $("#today").text(today);
