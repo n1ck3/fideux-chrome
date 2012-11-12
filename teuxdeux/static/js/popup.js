@@ -1,4 +1,4 @@
-/* Setup day and date { */
+/* Setup { */
     $(document).ready(function(){
         var d = new Date();
         var months = [
@@ -31,8 +31,10 @@
         $("#today").text("dsdsda");
         $("#today").text(today);
         $("#date").text(date);
+        $("#username").text(localStorage['username']);
     });
 /* } */
+
 
 /* Get and parse json { */
 function sort_by_position(a, b){
@@ -43,7 +45,8 @@ function sort_by_position(a, b){
     return 0;
 }
 
-$.getJSON('https://www.teuxdeux.com/api/list.json', function(data) {
+
+function parse_todos(data) {
     var d = new Date(),
         year = d.getFullYear(),
         month = d.getMonth()+1,
@@ -61,7 +64,6 @@ $.getJSON('https://www.teuxdeux.com/api/list.json', function(data) {
 
     var todos = [];
     $.each(data, function(key, todo) {
-        console.log(todo);
         if (todo['do_on'] === today_string) {
             todos.push(todo);
         }
@@ -83,5 +85,21 @@ $.getJSON('https://www.teuxdeux.com/api/list.json', function(data) {
     $("#loader").fadeOut('fast', function(){
         $("#list_items").fadeIn('slow');
     });
+}
+
+var username = localStorage['username'],
+    password = localStorage['password'],
+    token = btoa(username+":"+password);
+$.ajax({
+    'url': "https://www.teuxdeux.com/api/list.json",
+    'username': localStorage['username'],
+    'password': localStorage['password'],
+    'dataType': "json",
+    'beforeSend': function(xhr) {
+        xhr.setRequestHeader('Authorization', "Basic "+token);
+    },
+    'success': function(data) {
+        parse_todos(data);
+    }
 });
 /* } */

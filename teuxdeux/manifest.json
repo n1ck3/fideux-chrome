@@ -7,6 +7,7 @@
         "default_icon": "static/img/icon.png",
         "default_popup": "popup.html"
     },
+    "options_page": "options.html",
     "permissions": [
         "https://www.teuxdeux.com/api/"
     ]
