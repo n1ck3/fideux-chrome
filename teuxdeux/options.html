@@ -1,77 +1,31 @@
 <!DOCTYPE html>
 <html>
-<head>
-     <title>teuxdeux options</title>
-        <!-- <link rel="stylesheet" type="text/css" href="static/css/options.css" /> -->
+    <head>
+        <title>teuxdeux options</title>
+
+        <link rel="stylesheet" type="text/css" href="static/css/master.css" />
+        <link rel="icon" href="/static/img/icon.png" type="image/x-icon" />
+
         <script type="text/javascript" src="static/js/jquery-1.8.2.js"></script>
-        <script type="text/javascript" src="static/js/options.js"></script>
-<style>
-.center
-{
-margin: 20% auto;
-width: 300px;
-height: 300px;
-background-color: #ffffff;
-border-style: solid;
-border-width: 2px;
-border-color: #0000000;
-box-shadow: 5px 10px 20px #888888;
-}
-.form
-{
-margin: 130px auto;
-width: 190px;
-height: 100px;
-background-color: #ffffff;
-/*margin: 100px 100px;*/
-}
-.teuxdeux {
-    color: cc0000;
-    font-family:
-}
-label {
-    color: #cc0000;
-}
+        <script type="text/javascript" src="static/js/master.js"></script>
+    </head>
+    <body id="options_body">
+        <div id="options_header">
+            <div class="title large no1">TEUXDEUX</div>
+        </div>
+        <div id="options_wrapper">
+            <div class="title no1 center">TEUX<span class="red">DEUX</span></div>
+            <div class="subtitle no1 center">ACCOUNT LOGIN. PLEASE ENTER YOUR</div>
 
-body {
-    font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
-    font-size: 0.75em;
-}
-/* Text styles { */
-    @font-face {
-        font-family: "Alternate Gothic No1";
-        src: url('/static/fonts/alternate_gothic_no1.ttf') format('truetype');
-        font-weight: bold;
-        font-style: normal;
-    }
-    .no1 {
-        font-family: "Alternate Gothic No1", Impact, 'Arial Narrow', Futura, sans-serif;
-        font-weight: bold;
-        font-style: normal;
-        letter-spacing: 0.1px;
-    .large {
-        font-size: 1.5em;
-    }
-
-    }
-</style>
-</head>
-
-<body>
-
-<div class="center">
-    <div class="teuxdeux">TEUXDEUX</div>
-
-    <div class="form">
-        <label for="username" id="username_label">Username:</label><br>
-        <input id="username" type="text" value="" style="padding: 0px;" />
-        <br /><br />
-        <label for="password" id="password_label">Password:</label><br>
-        <input id="password" type="password" value="" style="padding: 0px;" />
-        <label id="save">Save</label>
-        <div id="message" style="padding-left: 20px; display: none;">Saved</span>
-    </div>
-</div>
-
-</body>
+            <div id="options_form">
+                <input id="options_username" type="text" value="" style="padding: 0px;" />
+                <input id="options_password" type="password" value="" style="padding: 0px;" />
+                <div id="options_save">
+                    Save
+                    <div class="message">Saved</span>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </body>
 </html>

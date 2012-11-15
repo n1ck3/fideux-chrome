@@ -1,28 +1,31 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
     <head>
         <title>teuxdeux for chrome</title>
-        <link rel="stylesheet" type="text/css" href="static/css/popup.css" />
+
+        <link rel="stylesheet" type="text/css" href="static/css/master.css" />
+
         <script type="text/javascript" src="static/js/jquery-1.8.2.js"></script>
-        <script type="text/javascript" src="static/js/popup.js"></script>
+        <script type="text/javascript" src="static/js/master.js"></script>
+
     </head>
-    <body>
-        <div id="header">
+    <body id="popup_body">
+        <a id="popup_header" href="https://www.teuxdeux.com/list/" target="_blank" tabindex="-1">
             <div class="title large no1">TEUXDEUX</div>
-            <div id="username" class="username"></div>
+            <div id="popup_username" class="username"></div>
             <div class="clear"></div>
-        </div>
-        <div id="wrapper">
-            <div id="today" class="huge no1"></div>
-            <div id="date" class="center"></div>
+        </a>
+        <div id="popup_wrapper">
+            <div id="popup_today" class="huge no1"></div>
+            <div id="popup_date" class="center"></div>
             <form action="" method="post">
-                <input type="text" id="add_input" value="" name="todo" />
+                <input type="text" id="popup_add_input" value="" name="todo" tabindex="1" />
             </form>
             <div class="clear"></div>
 
-            <div id="loader"><img src="static/img/loader.gif" /></div>
+            <div id="popup_loader"><img src="static/img/loader.gif" /></div>
 
-            <ul id="list_items">
+            <ul id="popup_list_items">
                 <li class="todo_item skeleton"></li>
             </ul>
         </div>
