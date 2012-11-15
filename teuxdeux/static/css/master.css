@@ -173,13 +173,12 @@
         display: block;
         position: relative;
         margin: 8% auto;
-        width: 325px;
-        /* height: 345px; */
+        padding: 20px;
+        width: 285px;
         background-color: white;
         box-shadow: 3px 4px 10px #888;
     }
     #options_wrapper .title {
-        padding-top: 20px;
         font-size: 8em;
         line-height: .8em;
     }
@@ -188,18 +187,18 @@
     }
     #options_form {
         display: block;
-        padding: 15px 0px 20px;
+        margin: 15px auto;
+        width: 250px;
     }
     #options_form input {
         display: block;
-        margin: 0px auto 20px;
+        margin: 0px 0px 20px;
         width: 250px;
         font-size: 1.5em;
     }
     #options_save {
         position: relative;
         display: inline-block;
-        margin-right: 40px;
         padding: 5px 15px 5px 10px;
         font-size: 2em;
         border-radius: 4px;

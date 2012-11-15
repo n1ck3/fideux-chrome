@@ -126,7 +126,8 @@
     }
     $(document).ready(function(){
         // diplay the username
-        $("#options_username").val(localStorage['username'])
+        $("#options_username").watermark('username');
+        $("#options_password").watermark('password');
 
         // Bind the save button
         $("#options_save").live('click', save_options);
