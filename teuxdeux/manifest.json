@@ -9,6 +9,6 @@
     },
     "options_page": "options.html",
     "permissions": [
-        "https://www.teuxdeux.com/api/"
+        "https://www.teuxdeux.com/api/*"
     ]
 }

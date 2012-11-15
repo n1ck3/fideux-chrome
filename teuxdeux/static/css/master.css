@@ -147,9 +147,20 @@
         color: #cc0000;
         font-weight: normal;
     }
+    #popup_list_items .todo_item .todo {
+        cursor: pointer;
+    }
     #popup_list_items .todo_item.done {
         text-decoration: line-through;
         font-weight: lighter;
+    }
+    #popup_list_items .todo_item .remove_todo {
+        display: none;
+        float: right;
+        cursor: pointer;
+    }
+    #popup_list_items .todo_item:hover .remove_todo {
+        display: inline-block;
     }
 /* } */
 
