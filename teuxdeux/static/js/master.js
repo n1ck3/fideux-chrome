@@ -7,38 +7,43 @@
     /* CREATE  { */
         function create_callback(json) {
             console.log("create_callback()");
-            console.log(json)
+            // XXX: This should really just check if the request was successful
+            // and then prepend the todo to the list. To save on the requests
+            // and bandwidth and whatnot. :) For now, though, re-read the whole
+            // thing.
+            read_todos();
         }
         function create_todo() {
             console.log("create_todos()");
-            var input = $("#popup_add_input");
-            if (input.val().length === 0){
+            var input = $("#popup_add_input"),
+                todo = input.val();
+
+            if (todo.length === 0){
                 return;
             }
 
-            // Disable input temporarily
-            input.attr('disabled', true);
+            // Clear the input. \\o/
+            input.val("");
 
             // Put together the todo
-            var todo_item = {
-                "todo": $("#popup_add_input").val(),
-                "do_on": "2012-11-15",
-                "done": 0,
-                "position": 0
+            var data = {
+                "todo_item": {
+                    "todo": todo,
+                    "do_on": "2012-11-15",
+                    "done": 0,
+                    "position": 0
+                }
             };
 
-            // Make the request
+            // Fire the ajax request
             $.ajax({
                 'type': 'POST',
                 'url': api_url + 'todo.json',
-                // 'dataType': "json",
-                'data': todo_item,
+                'data': data,
                 'beforeSend': function(xhr) {
                     xhr.setRequestHeader('Authorization', 'Basic '+token);
                 },
                 'complete': function(json) {
-                    // Enable input again
-                    input.val('').attr("disabled", false);
                     create_callback(json);
                 }
             });
@@ -53,6 +58,7 @@
             return 0;
         }
         function read_callback(json) {
+            $("#popup_list_items li:visible").remove();
             console.log("read_callback()");
             var d = new Date(),
                 year = d.getFullYear(),
@@ -119,11 +125,26 @@
             console.log("update_callback()");
             console.log(json)
         }
-        function update_todo(todo) {
+        function mark_ad_done(todo){
+            console.log("mark_as_done()");
+            var todo_id = todo.attr("todo_id"),
+                todo_item = {}
+            if (todo.hasClass('done')) {
+                todo.removeClass('done');
+                todo_item[todo_id]['done'] = 0;
+            } else {
+                todo.addClass('done');
+                todo_item[todo_id]['done'] = 0;
+            }
+            update_todo(todo_item)
+        }
+        function update_todo(todo_item) {
             console.log("update_todo()");
             $.ajax({
                 'url': api_url + "todo.json",
-                'dataType': "json",
+                'data': {
+                    "todo_item": todo_item
+                },
                 'beforeSend': function(xhr) {
                     xhr.setRequestHeader('Authorization', "Basic "+token);
                 },
@@ -209,12 +230,7 @@
 
             // Bind UPDATE
             $(".todo_item .todo").live('click', function(){
-                console.log('click');
-                if ($(this).parent().hasClass('done')) {
-                    $(this).parent().removeClass('done');
-                } else {
-                    $(this).parent().addClass('done');
-                }
+                mark_as_done($(this).parent());
             });
 
             // Bind DELETE
