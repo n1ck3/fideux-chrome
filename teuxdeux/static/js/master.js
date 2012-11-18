@@ -1,20 +1,76 @@
+var DEBUG = false;
+function debug(string) {
+    if (DEBUG === true) {
+        console.log(string);
+    }
+}
+
 /* Popup page { */
     var username = localStorage['username'],
         password = localStorage['password'],
         token = btoa(username+":"+password);
         api_url = "https://www.teuxdeux.com/api/";
 
-    /* CREATE  { */
-        function create_callback(json) {
-            console.log("create_callback()");
-            // XXX: This should really just check if the request was successful
-            // and then prepend the todo to the list. To save on the requests
-            // and bandwidth and whatnot. :) For now, though, re-read the whole
-            // thing.
-            read_todos();
+    function sort_by_position(a, b){
+        if (a.position < b.position)
+            return -1;
+        if (a.position > b.position)
+            return 1;
+        return 0;
+    }
+    function render_todos(todos) {
+        debug("render_todos()");
+        if (todos instanceof Array === false) {
+            todos = [todos]
         }
+        debug(todos);
+
+        todos.sort(sort_by_position);
+
+        var list = $("#popup_list_items");
+        for (var i = 0 ; i < todos.length ; i++) {
+            var todo = todos[i],
+                li = $("#popup_todo_skeleton").clone();
+
+            li.attr("id", todo['id']);
+            li.attr("do_on", todo['do_on']);
+            li.attr("position", todo['position']);
+            li.attr("done", todo['done'])
+
+            li.find(".todo").text(todo['todo']);
+
+            if (todo["todo"] !== "") {
+                list.append(li);
+            } else {
+                api_delete(todo["id"])
+            }
+        }
+    }
+    function restore_list(target) {
+        $("input.edit_todo_input").hide();
+        $(".todo_item").removeClass("edit");
+        $(".todo_item .todo").show();
+    }
+    function today() {
+        var d = new Date(),
+            year = d.getFullYear(),
+            month = d.getMonth()+1,
+            date = d.getDate();
+            list = $("#popup_list_items");
+
+        if (month < 10) {
+            month = "0"+month;
+        }
+        if (date < 10) {
+            date = "0"+date;
+        }
+
+        return year+"-"+month+"-"+date
+    }
+
+    /* CREATE  { */
         function create_todo() {
-            console.log("create_todos()");
+            debug("create_todo()");
             var input = $("#popup_add_input"),
                 todo = input.val();
 
@@ -26,16 +82,22 @@
             input.val("");
 
             // Put together the todo
+            todo_item = {
+                "todo": todo,
+                "do_on": today(),
+                "done": 0,
+                "position": 0
+            }
+            api_create(todo_item)
+        }
+        function api_create_callback(todo) {
+            debug("create_callback()");
+            render_todos(todo);
+        }
+        function api_create(todo_item){
             var data = {
-                "todo_item": {
-                    "todo": todo,
-                    "do_on": "2012-11-15",
-                    "done": 0,
-                    "position": 0
-                }
+                "todo_item": todo_item
             };
-
-            // Fire the ajax request
             $.ajax({
                 'type': 'POST',
                 'url': api_url + 'todo.json',
@@ -44,36 +106,19 @@
                     xhr.setRequestHeader('Authorization', 'Basic '+token);
                 },
                 'complete': function(json) {
-                    create_callback(json);
+                    if (json.status === 200) {
+                        var todo = $.parseJSON(json.responseText)
+                        api_create_callback(todo);
+                    }
                 }
             });
         }
     /* } */
     /* READ { */
-        function sort_by_position(a, b){
-            if (a.position < b.position)
-                return -1;
-            if (a.position > b.position)
-                return 1;
-            return 0;
-        }
-        function read_callback(json) {
-            $("#popup_list_items li:visible").remove();
-            console.log("read_callback()");
-            var d = new Date(),
-                year = d.getFullYear(),
-                month = d.getMonth()+1,
-                date = d.getDate();
-                list = $("#popup_list_items");
+        function api_read_callback(json) {
+            debug("api_read_callback()");
 
-            if (month < 10) {
-                month = "0"+month;
-            }
-            if (date < 10) {
-                date = "0"+date;
-            }
-
-            var today_string = year+"-"+month+"-"+date
+            today_string = today();
 
             var todos = [];
             $.each(json, function(key, todo) {
@@ -82,84 +127,111 @@
                 }
             });
 
-            todos.sort(sort_by_position);
+            render_todos(todos);
 
-            var list = $("#popup_list_items");
-            $.each(todos, function(key, todo){
-                var li = $("#popup_list_items .todo_item.skeleton").clone();
-                li.removeClass("skeleton");
-
-                li.attr("todo_id", todo['id']);
-
-                if (todo['done'] === true){
-                    li.addClass("done")
-                }
-
-                li.find(".todo").text(todo['todo']);
-                list.append(li);
-            })
-
-            // Show list if not already visible
+            // show list if not already visible
             if (list.not(":visible")) {
                 $("#popup_loader").fadeOut('fast', function(){
                     list.fadeIn('slow');
                 });
             }
         }
-        function read_todos() {
-            console.log("read_todos()");
+        function api_read_failed(json) {
+            debug("api_read_fail()");
+            $("#popup_loader").fadeOut("fast", function(){
+                var msg = $("<p class='red center'>Somethign went wrong.</p>");
+                if (json.status === 401) {
+                    msg = $("<p class='red center'>You need to add your account details in the <a href='/options.html' target='_blank' class='red bold'>options page</a>.</p>")
+                }
+                $("#popup_wrapper").append(msg);
+            });
+        }
+        function api_read(date_string) {
+            debug("api_read()");
             $.ajax({
                 'url': api_url + "list.json",
                 'dataType': "json",
                 'beforeSend': function(xhr) {
                     xhr.setRequestHeader('Authorization', "Basic "+token);
                 },
-                'success': function(json) {
-                    read_callback(json);
+                'complete': function(json) {
+                    if (json.status === 200) {
+                        data = $.parseJSON(json.responseText)
+                        api_read_callback(data);
+                    } else {
+                        api_read_failed(json);
+                    }
                 }
             });
         }
     /* } */
     /* UPDATE  { */
-        function update_callback(json) {
-            console.log("update_callback()");
-            console.log(json)
-        }
-        function mark_ad_done(todo){
-            console.log("mark_as_done()");
-            var todo_id = todo.attr("todo_id"),
-                todo_item = {}
-            if (todo.hasClass('done')) {
-                todo.removeClass('done');
+        function toggle_done(todo_id){
+            debug("toggle_done()");
+            var todo = $("#"+todo_id),
+                todo_item = {};
+
+            todo_item[todo_id] = {}
+            if (todo.attr("done") === "true") {
+                todo.attr("done", false);
                 todo_item[todo_id]['done'] = 0;
             } else {
-                todo.addClass('done');
-                todo_item[todo_id]['done'] = 0;
+                todo.attr("done", true);
+                todo_item[todo_id]['done'] = 1;
             }
-            update_todo(todo_item)
+            api_update(todo_item);
         }
-        function update_todo(todo_item) {
-            console.log("update_todo()");
+        function update_todo(todo_id, new_todo){
+            debug("update_todo()");
+            var todo = $("#"+todo_id),
+                text = todo.find("span.todo"),
+                todo_item = {};
+
+            restore_list();
+            text.text(new_todo);
+
+            todo_item[todo_id] = {}
+            if (new_todo !== "") {
+                todo_item[todo_id]['todo'] = new_todo;
+                api_update(todo_item);
+            } else {
+                api_delete(todo.attr("id"));
+            }
+        }
+        function update_position(todo_id, new_position){
+            debug("update_position()");
+            var todo = $("#"+todo_id),
+                todo_item = {};
+
+            todo_item[todo_id] = {}
+            todo_item[todo_id]["position"] = new_position;
+            api_update(todo_item);
+        }
+        function api_update_callback(json) {
+            debug("api_update_callback()");
+        }
+        function api_update(todo_item) {
+            debug("api_update_todo()");
             $.ajax({
-                'url': api_url + "todo.json",
-                'data': {
-                    "todo_item": todo_item
-                },
+                'type': 'POST',
+                'url': api_url + "update.json",
+                'data': {"todo_item": todo_item},
                 'beforeSend': function(xhr) {
                     xhr.setRequestHeader('Authorization', "Basic "+token);
                 },
                 'complete': function(json) {
-                    update_callback(json);
+                    api_update_callback(json);
                 }
             });
         }
     /* } */
     /* DELETE  { */
-        function delete_callback() {
-            console.log("delete_callbacki()");
+        function api_delete_callback() {
+            debug("delete_callback()");
         }
-        function delete_todo(todo_id) {
-            console.log("delete_todo()");
+        function api_delete(todo_id) {
+            debug("api_delete_todo()");
+            $("#"+todo_id).remove();
             $.ajax({
                 'type': "DELETE",
                 'url': api_url + "todo/"+todo_id,
@@ -167,7 +239,7 @@
                     xhr.setRequestHeader('Authorization', "Basic "+token);
                 },
                 'success': function() {
-                    delete_callback();
+                    api_delete_callback();
                 }
             });
         }
@@ -177,7 +249,7 @@
         if ($("#popup_body").length > 0) {
             // Make sure that the javascript for this page is only loaded when
             // #popup_body is present.
-            console.log('POPUP PAGE LOADED');
+            debug('POPUP PAGE LOADED');
 
             // We need to get some date data
             var d = new Date();
@@ -219,7 +291,41 @@
             });
 
             // Initial read of todos.
-            read_todos();
+            api_read();
+
+            // Make sortable
+            $("#popup_list_items").sortable({
+                'update': function(event, ui) {
+                    var todo_id = ui.item.attr("id"),
+                        new_position = ui.item.index();
+                    update_position(todo_id, new_position);
+                }
+            });
+
+            // Bind EDIT
+            $("#popup_wrapper").click(function(e){
+                target = $(e.target);
+                if (!target.hasClass("edit_todo_input")) {
+                    restore_list(e.target.id);
+                }
+            });
+            $("span.edit_todo").live('click', function(){
+                restore_list();
+                var todo = $(this).parent(),
+                    text = todo.find("span.todo"),
+                    input = todo.find("input.edit_todo_input");
+
+                todo.addClass("edit");
+                text.hide();
+                input.val(text.text()).show().focus();
+            });
+            $(".edit_todo_input").live('keypress', function(e){
+                if (e.keyCode === 13) {
+                    var todo_id = $(this).parent().attr("id"),
+                        new_todo = $(this).val();
+                    update_todo(todo_id, new_todo);
+                }
+            });
 
             // Bind CREATE
             $("#popup_add_input").bind('keypress', function(e){
@@ -230,21 +336,21 @@
 
             // Bind UPDATE
             $(".todo_item .todo").live('click', function(){
-                mark_as_done($(this).parent());
+                toggle_done($(this).parent().attr("id"));
             });
 
             // Bind DELETE
             $(".todo_item .remove_todo").live('click', function(){
-                $(this).parent().fadeOut('fast;');
-                delete_todo($(this).parent().attr("todo_id"));
+                api_delete($(this).parent().attr("id"));
             });
+
         }
     });
 /* } */
 
 /* Options page { */
     function save_options() {
-        console.log("save_options()");
+        debug("save_options()");
         var button = $("#options_save"),
             username = $("#options_username").val(),
             password = $("#options_password").val(),
@@ -264,7 +370,7 @@
         if ($("#options_body").length > 0) {
             // Make sure that the javascript for this page is only loaded when
             // #popup_body is present.
-            console.log('OPTIONS PAGE LOADED');
+            debug('OPTIONS PAGE LOADED');
 
             // diplay the username
             $("#options_username").watermark('username');

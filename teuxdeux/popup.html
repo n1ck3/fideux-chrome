@@ -4,8 +4,10 @@
         <title>teuxdeux for chrome</title>
 
         <link rel="stylesheet" type="text/css" href="static/css/master.css" />
+        <link rel="stylesheet" type="text/css" href="static/css/blitzer/jquery-ui-1.9.1.custom.min.css" />
 
         <script type="text/javascript" src="static/js/jquery-1.8.2.js"></script>
+        <script type="text/javascript" src="static/js/jquery-ui-1.9.1.custom.min.js"></script>
         <script type="text/javascript" src="static/js/master.js"></script>
 
     </head>
@@ -25,11 +27,13 @@
 
             <div id="popup_loader"><img src="static/img/loader.gif" /></div>
 
+            <li id="popup_todo_skeleton" class="todo_item">
+                <span class="todo"></span>
+                <span class="red remove_todo">x</span>
+                <span class="edit_todo"></span>
+                <input class="edit_todo_input" edit="true" type="text" value="" />
+            </li>
             <ul id="popup_list_items">
-                <li class="todo_item skeleton">
-                    <span class="todo"></span>
-                    <span class="red remove_todo">x</span>
-                </li>
             </ul>
         </div>
     </body>

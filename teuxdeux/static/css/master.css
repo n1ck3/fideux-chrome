@@ -110,18 +110,14 @@
     #popup_wrapper form {
         margin: 20px auto 0px;
     }
-    #popup_wrapper form input[type=text] {
+    #popup_add_input {
         display: block;
         width: 95%;
-        margin: 0px auto 10px;
+        margin: 20px auto 15px;
         border: 1px solid #bbbbbb;
         line-height: 1.8em;
         font-size: 1em;
         padding: 0px 2px;
-    }
-    #popup_wrapper form input[type=button] {
-        width: 40px;
-        float: right;
     }
     #popup_loader {
         position: relative;
@@ -133,34 +129,62 @@
         display: none;
         list-style-type: none;
         width: 95%;
-        padding: 0px 2px 0px 2px;
+        padding: 2px 2px 0px 2px;
         margin: 0px auto;
         min-height: 254px;
         background: url(/static/img/list_background_2x24.png) repeat;
     }
-    #popup_list_items .todo_item.skeleton {
+    #popup_todo_skeleton {
         display: none;
     }
     #popup_list_items .todo_item {
         display: block;
-        line-height: 2em;
+        margin: 0px 0px 4px;
+        line-height: 20px;
         color: #cc0000;
         font-weight: normal;
+        background-color: #ffffff;
+        cursor: move;
     }
     #popup_list_items .todo_item .todo {
         cursor: pointer;
+        width: 100%;
     }
-    #popup_list_items .todo_item.done {
+    #popup_list_items .todo_item .todo:hover {
+        text-decoration: line-through;
+        background-color: #f7dedf;
+    }
+    #popup_list_items .todo_item[done=true] {
         text-decoration: line-through;
         font-weight: lighter;
+        color: #e16969;
     }
     #popup_list_items .todo_item .remove_todo {
         display: none;
         float: right;
         cursor: pointer;
     }
-    #popup_list_items .todo_item:hover .remove_todo {
+    #popup_list_items .todo_item[done=true]:hover .remove_todo {
         display: inline-block;
+    }
+    #popup_list_items .todo_item .edit_todo {
+        display: none;
+        margin-top: 5px;
+        width: 10px;
+        height: 10px;
+        cursor: pointer;
+        background: url(/static/img/edit_10x10.png) no-repeat;
+        float: right;
+    }
+    #popup_list_items .todo_item:not(.edit)[done=false]:hover .edit_todo {
+        display: inline-block;
+    }
+    #popup_list_items .todo_item .edit_todo_input {
+        display: none;
+        width: 100%;
+        border: 1px solid #bbbbbb;
+        padding: 0px 2px;
+        margin-left: -2px;
     }
 /* } */
 
