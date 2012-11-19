@@ -139,7 +139,7 @@ function debug(string) {
         function api_read_failed(json) {
             debug("api_read_fail()");
             $("#popup_loader").fadeOut("fast", function(){
-                var msg = $("<p class='red center'>Somethign went wrong.</p>");
+                var msg = $("<p class='red center'>Something went wrong.</p>");
                 if (json.status === 401) {
                     msg = $("<p class='red center'>You need to add your account details in the <a href='/options.html' target='_blank' class='red bold'>options page</a>.</p>")
                 }
