@@ -146,9 +146,9 @@
     #popup_list_items .todo_item {
         position: relative;
         display: block;
-        margin: 0px 0px 3px;
+        margin: 2px 0px 4px;
         font-size: 12px;
-        line-height: 21px;
+        line-height: 20px;
         color: #cc0000;
         font-weight: normal;
         /* background-color: rgba(0,0,0,0.1); */
@@ -172,8 +172,8 @@
         text-decoration: line-through;
         background-color: #f7dedf;
     }
-    #popup_list_items .todo_item[done=true] {
-        text-decoration: line-through;
+    #popup_list_items .todo_item[done=true] .todo {
+        text-decoration: line-through !important;
         color: #e16969;
     }
     #popup_list_items .todo_item .remove_todo {
