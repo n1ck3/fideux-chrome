@@ -49,6 +49,9 @@
         .red {
             color: #cc0000;
         }
+        span.watermark {
+            font-style: italic;
+        }
     /* } */
     /* Positional styles { */
         .left {

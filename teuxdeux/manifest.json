@@ -1,8 +1,8 @@
 {
-    "name": "teuxdeux for chrome",
-    "version": "1.0.1",
+    "name": "fiDeux",
+    "version": "1.1",
     "manifest_version": 2,
-    "description": "Simple Google Chrome extension to show today's teuxdeuxs",
+    "description": "Teuxdeux Chrome extension by Fickle Mills",
     "browser_action": {
         "default_icon": "static/img/icon.png",
         "default_popup": "popup.html"

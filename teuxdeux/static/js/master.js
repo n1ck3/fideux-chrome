@@ -373,8 +373,8 @@ function debug(string) {
             debug('OPTIONS PAGE LOADED');
 
             // diplay the username
-            $("#options_username").watermark('username');
-            $("#options_password").watermark('password');
+            $("#options_username").watermark('teuxdeux username');
+            $("#options_password").watermark('teuxdeux password');
 
             // Bind the save button
             $("#options_save").live('click', save_options);
