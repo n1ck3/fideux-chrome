@@ -138,9 +138,10 @@
         display: none;
     }
     #popup_list_items .todo_item {
+        position: relative;
         display: block;
         margin: 0px 0px 4px;
-        line-height: 20px;
+        line-height: 21px;
         color: #cc0000;
         font-weight: normal;
         background-color: #ffffff;
@@ -161,7 +162,9 @@
     }
     #popup_list_items .todo_item .remove_todo {
         display: none;
-        float: right;
+        position: absolute;
+        top: 1px;
+        right: 0px;
         cursor: pointer;
     }
     #popup_list_items .todo_item[done=true]:hover .remove_todo {
@@ -169,12 +172,13 @@
     }
     #popup_list_items .todo_item .edit_todo {
         display: none;
-        margin-top: 5px;
+        position: absolute;
+        top: 5px;
+        right: 0px;
         width: 10px;
         height: 10px;
-        cursor: pointer;
         background: url(/static/img/edit_10x10.png) no-repeat;
-        float: right;
+        cursor: pointer;
     }
     #popup_list_items .todo_item:not(.edit)[done=false]:hover .edit_todo {
         display: inline-block;
