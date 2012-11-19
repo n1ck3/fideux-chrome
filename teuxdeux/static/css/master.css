@@ -140,19 +140,33 @@
     #popup_todo_skeleton {
         display: none;
     }
+    #popup_list_items .todo_item:first-child {
+        margin-top: 0px;
+    }
     #popup_list_items .todo_item {
         position: relative;
         display: block;
-        margin: 0px 0px 4px;
+        margin: 0px 0px 3px;
+        font-size: 12px;
         line-height: 21px;
         color: #cc0000;
         font-weight: normal;
+        /* background-color: rgba(0,0,0,0.1); */
         background-color: #ffffff;
         cursor: move;
     }
     #popup_list_items .todo_item .todo {
+        display: inline-block;
+        min-width: 10px;
+        max-width: 175px;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        -webkit-text-overflow: ellipsis !important;
         cursor: pointer;
-        width: 100%;
+    }
+    #popup_list_items .todo_item:hover .todo {
+        max-width: 157px;
     }
     #popup_list_items .todo_item .todo:hover {
         text-decoration: line-through;
@@ -160,7 +174,6 @@
     }
     #popup_list_items .todo_item[done=true] {
         text-decoration: line-through;
-        font-weight: lighter;
         color: #e16969;
     }
     #popup_list_items .todo_item .remove_todo {
