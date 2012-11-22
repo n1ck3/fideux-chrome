@@ -1,4 +1,4 @@
-chrome-teuxdeux
+fiDeux
 ===============
 
-Simple teuxdeux chrome extension
+fiDeux is a simple Google Chrome extension for managing today's tasks using TeuxDeux backend.
