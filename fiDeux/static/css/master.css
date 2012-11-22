@@ -132,7 +132,7 @@
         display: none;
         list-style-type: none;
         width: 95%;
-        padding: 2px 2px 0px 2px;
+        padding: 2px;
         margin: 0px auto;
         min-height: 254px;
         background: url(/static/img/list_background_2x24.png) repeat;

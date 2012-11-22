@@ -6,6 +6,7 @@ function debug(string) {
 }
 
 /* Popup page { */
+
     var username = localStorage['username'],
         password = localStorage['password'],
         token = btoa(username+":"+password);
